@@ -1,0 +1,23 @@
+// Imperial Purple (palette #2) — project color tokens only.
+// Do not add new hex colors elsewhere; use these variables.
+
+$color-bg: #ffffff;
+$color-surface: #f5f3ff;
+$color-text: #1e1b2e;
+$color-muted: #5c5678;
+$color-primary: #5b21b6;
+$color-accent: #a855f7;
+$color-success: #059669;
+$color-error: #dc2626;
+$color-hero-bg: #0f0a14;
+
+// Semantic aliases
+$bg: $color-bg;
+$surface: $color-surface;
+$text: $color-text;
+$muted: $color-muted;
+$primary: $color-primary;
+$accent: $color-accent;
+$success: $color-success;
+$error: $color-error;
+$hero-bg: $color-hero-bg;

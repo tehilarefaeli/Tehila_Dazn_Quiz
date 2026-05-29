@@ -1,0 +1,149 @@
+@use '../../styles/variables' as *;
+
+.quiz {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+  padding-bottom: 3rem;
+  background-color: $bg;
+  color: $text;
+
+  // Mobile: page scrolls when content is taller than the viewport
+  @media (max-width: 767px) {
+    min-height: 100dvh;
+    -webkit-overflow-scrolling: touch;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  @media (min-width: 768px) {
+    padding-bottom: 1rem;
+  }
+}
+
+.quiz__card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.quiz__progress {
+  margin: 0;
+  font-size: 0.875rem;
+  color: $muted;
+}
+
+.quiz__timer {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $accent;
+}
+
+.quiz__finished {
+  margin: 0;
+  font-size: 1.125rem;
+  color: $text;
+}
+
+.quiz__item {
+  padding: 1rem;
+  background-color: $surface;
+  border-radius: 0.5rem;
+
+  @media (max-width: 767px) {
+    padding: 0.875rem 0.75rem;
+  }
+}
+
+.quiz__question {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.quiz__hint {
+  margin: 0.75rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: $muted;
+  font-style: italic;
+}
+
+.quiz__choices {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.quiz__choice {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 1rem;
+  color: $text;
+  background-color: $bg;
+  border: 1px solid $muted;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    border-color: $accent;
+    box-shadow:
+      0 1px 3px rgba($accent, 0.12),
+      0 4px 12px rgba($primary, 0.08);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba($accent, 0.1);
+  }
+
+  &--selected {
+    border: 2px solid $primary;
+    padding: calc(0.75rem - 1px) calc(1rem - 1px);
+    cursor: default;
+
+    &:hover {
+      border-color: $primary;
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
+  &--correct {
+    border: 2px solid $success;
+    padding: calc(0.75rem - 1px) calc(1rem - 1px);
+    background-color: rgba($success, 0.12);
+    cursor: default;
+
+    &:hover {
+      border-color: $success;
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
+  &--wrong {
+    border: 2px solid $error;
+    padding: calc(0.75rem - 1px) calc(1rem - 1px);
+    background-color: rgba($error, 0.08);
+    cursor: default;
+
+    &:hover {
+      border-color: $error;
+      box-shadow: none;
+      transform: none;
+    }
+  }
+}

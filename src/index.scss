@@ -1,0 +1,43 @@
+@use './styles/variables' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+
+  @media (max-width: 767px) {
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @media (min-width: 768px) {
+    overflow-y: visible;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  background-color: $bg;
+  color: $text;
+  overflow-x: hidden;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+#root {
+  /* No height constraints */
+}
