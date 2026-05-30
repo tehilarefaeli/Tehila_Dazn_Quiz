@@ -1,80 +1,138 @@
 @use '../../styles/variables' as *;
 
+@keyframes quiz-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .quiz {
   box-sizing: border-box;
   width: 100%;
   max-width: 48rem;
   margin: 0 auto;
-  padding: 1rem;
-  padding-bottom: 3rem;
+  padding: 1rem 0.75rem 3rem;
   background-color: $bg;
   color: $text;
 
-  // Mobile: page scrolls when content is taller than the viewport
-  @media (max-width: 767px) {
-    min-height: 100dvh;
-    -webkit-overflow-scrolling: touch;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+  @media (min-width: 768px) {
+    padding: 1rem;
+    padding-bottom: 2rem;
   }
 
-  @media (min-width: 768px) {
-    padding-bottom: 1rem;
+  &--finished {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: auto;
+    padding-top: 1.5rem;
+    padding-bottom: 2.5rem;
+
+    @media (min-width: 768px) {
+      justify-content: center;
+      min-height: 100dvh;
+      padding-bottom: 1.5rem;
+    }
   }
 }
 
+.quiz__page-title {
+  margin: 0 0 1.25rem;
+  font-size: 1.625rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  text-align: center;
+  background: linear-gradient(135deg, $text 0%, $primary 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .quiz__card {
+  width: 100%;
+  padding: 1.5rem 1.25rem;
+  background-color: $surface;
+  border-radius: 1.25rem;
+  border: 1px solid rgba($primary, 0.08);
+  box-shadow:
+    0 10px 30px -10px rgba($primary, 0.15),
+    0 1px 3px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
+  animation: quiz-fade-in 0.5s ease-out;
+
+  @media (min-width: 768px) {
+    padding: 2rem 1.75rem;
+  }
+}
+
+.quiz__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .quiz__progress {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  font-weight: 600;
   color: $muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .quiz__timer {
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: $accent;
-}
-
-.quiz__finished {
-  margin: 0;
+  margin-left: auto;
+  padding: 0.35rem 0.85rem;
   font-size: 1.125rem;
-  color: $text;
+  font-weight: 700;
+  color: $accent;
+  background-color: rgba($accent, 0.12);
+  border-radius: 999px;
+  flex-shrink: 0;
 }
 
-.quiz__item {
-  padding: 1rem;
-  background-color: $surface;
-  border-radius: 0.5rem;
-
-  @media (max-width: 767px) {
-    padding: 0.875rem 0.75rem;
-  }
+.quiz__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .quiz__question {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
   line-height: 1.5;
+  color: $text;
 }
 
 .quiz__hint {
-  margin: 0.75rem 0 0;
+  margin: 0;
   font-size: 0.9375rem;
   line-height: 1.5;
   color: $muted;
   font-style: italic;
 }
 
+.quiz__time-feedback {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: $success;
+}
+
 .quiz__choices {
   list-style: none;
-  margin: 1rem 0 0;
+  margin: 0.25rem 0 0;
   padding: 0;
   display: grid;
   gap: 0.75rem;
@@ -88,8 +146,8 @@
   font-size: 1rem;
   color: $text;
   background-color: $bg;
-  border: 1px solid $muted;
-  border-radius: 0.5rem;
+  border: 1px solid rgba($primary, 0.12);
+  border-radius: 0.75rem;
   cursor: pointer;
   transition:
     border-color 0.2s ease,

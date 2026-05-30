@@ -3,8 +3,7 @@ import './ResaultQuiz.scss'
 function ResaultQuiz({ score, total, onRestart }) {
   const percentage = Math.round((score / total) * 100)
   
-  // Calculate SVG dash offset for circular progress ring
-  // Circumference = 2 * PI * r. For r = 40, Circumference = 251.2
+
   const radius = 40
   const circumference = 2 * Math.PI * radius
   const strokeDashoffset = circumference - (percentage / 100) * circumference

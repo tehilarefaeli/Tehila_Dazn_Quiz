@@ -8,15 +8,8 @@
 
 html {
   overflow-x: hidden;
-
-  @media (max-width: 767px) {
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  @media (min-width: 768px) {
-    overflow-y: visible;
-  }
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -25,6 +18,8 @@ body {
   background-color: $bg;
   color: $text;
   overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 button,
@@ -39,5 +34,5 @@ a:focus:not(:focus-visible) {
 }
 
 #root {
-  /* No height constraints */
+  min-height: 100%;
 }

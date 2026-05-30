@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import allQuestions from '../../data/MockData.json'
 import ResaultQuiz from '../resaultQuiz/ResaultQuiz'
@@ -22,8 +22,7 @@ function Quiz() {
   const [showCorrect, setShowCorrect] = useState(false)
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0)
   const [timeLeftForCorrectAnswer, setTimeLeftForCorrectAnswer] = useState(-1)
-  
-
+  const selectedRef = useRef(null)
 
   const isFinished = currentQuestion >= questions.length
 
@@ -42,7 +41,7 @@ function Quiz() {
     setSecondsLeft(QUESTION_SECONDS)
     setSelectedAnswerIndex(null)
     setShowCorrect(false)
-  
+    selectedRef.current = null
 
     const tickId = setInterval(() => {
       setSecondsLeft((s) => (s > 0 ? s - 1 : 0))
@@ -50,6 +49,13 @@ function Quiz() {
 
     let nextId
     const revealId = setTimeout(() => {
+      const question = questions[currentQuestion]
+      const picked = selectedRef.current
+
+      if (picked !== null && picked === question.answer_index) {
+        setCorrectAnswersCount((c) => c + 1)
+      }
+
       setShowCorrect(true)
       nextId = setTimeout(() => {
         setCurrentQuestion((i) => i + 1)
@@ -64,40 +70,38 @@ function Quiz() {
   }, [currentQuestion, isFinished])
 
   return (
-    <main className="quiz">
-      <h1>Quiz</h1>
+    <main className={`quiz${isFinished ? ' quiz--finished' : ''}`}>
+      {!isFinished && <h1 className="quiz__page-title">Quiz</h1>}
 
       {isFinished ? (
         <ResaultQuiz
           score={correctAnswersCount}
           total={questions.length}
           onRestart={handleRestart}
-          questions={questions}
         />
       ) : (
         <section className="quiz__card" aria-live="polite">
-          <p className="quiz__progress">
-            Question {currentQuestion + 1} of {questions.length}
-          </p>
-          <p className="quiz__timer" aria-label={`${secondsLeft} seconds remaining`}>
-            {secondsLeft}s
-          </p>
-          <div className="quiz__item">
+          <header className="quiz__header">
+            <p className="quiz__progress">
+              Question {currentQuestion + 1} of {questions.length}
+            </p>
+            <p className="quiz__timer" aria-label={`${secondsLeft} seconds remaining`}>
+              {secondsLeft}s
+            </p>
+          </header>
+
+          <div className="quiz__body">
             <p className="quiz__question">{current.question}</p>
             {showHint && (
               <p className="quiz__hint" role="note">
                 {current.hint}
               </p>
             )}
-            {
-              showCorrect && timeLeftForCorrectAnswer >=0
-              ? (
-                <p className="quiz__hint" role="note">
-                u answer by   {timeLeftForCorrectAnswer}s
-                </p>
-              )
-              : null
-            }
+            {showCorrect && timeLeftForCorrectAnswer >= 0 ? (
+              <p className="quiz__time-feedback" role="status">
+                You answered in {timeLeftForCorrectAnswer}s
+              </p>
+            ) : null}
             <ul className="quiz__choices">
               {current.choices.map((choice, index) => {
                 let choiceModifier = ''
@@ -119,12 +123,11 @@ function Quiz() {
                       className={`quiz__choice${choiceModifier}`}
                       onClick={() => {
                         setSelectedAnswerIndex(index)
+                        selectedRef.current = index
                         if (index === current.answer_index) {
-                          setCorrectAnswersCount((c) => c + 1)
                           setTimeLeftForCorrectAnswer(QUESTION_SECONDS - secondsLeft)
-                        }else {
+                        } else {
                           setTimeLeftForCorrectAnswer(-1)
-
                         }
                       }}
                       disabled={showCorrect}
